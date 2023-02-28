@@ -1,0 +1,7 @@
+name: ube_mbrl
+channels:
+  - defaults
+dependencies:
+  - pip
+  - python=3.8
+  - setuptools

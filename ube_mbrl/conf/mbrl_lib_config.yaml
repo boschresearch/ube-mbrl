@@ -1,0 +1,36 @@
+device: &device "cuda"
+
+dynamics_model: 
+  _target_: ube_mbrl.mbrl.models.BasicEnsemble
+  device: *device
+  ensemble_size: 5
+  propagation_method: null
+  member_cfg:
+    _target_: ube_mbrl.mbrl.models.GaussianMLP
+    device: *device
+    num_layers: 4
+    hid_size: 200
+    in_size: "???"
+    out_size: "???"
+    deterministic: False
+    activation_fn_cfg:
+      _target_: "torch.nn.SiLU"
+
+# options for training the dynamics model
+algorithm:
+  learned_rewards: False
+  target_is_delta: True
+  normalize: True
+
+# needs to exist, otherwise mbrl-lib complains
+overrides:
+  dummy: "dummy"
+
+# avoid creating output dir after each run
+hydra:
+  output_subdir: null
+  run:
+    dir: .
+
+defaults:
+  - hydra/job_logging: disabled
